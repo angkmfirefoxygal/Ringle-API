@@ -126,14 +126,12 @@ curl -s http://localhost:3000/api/v1/students/2/enrollments | jq
 
 📌 응답 예시:
 ```json
-[
-  {
-    "id": 1,
-    "student_id": 2,
-    "tutor_id": 7,
-    "start_time": "2025-06-07T00:00:00.000+09:00",
-    "duration": 30
-  }
-]
+
+ {
+    "start_time": "2025-06-06T15:00:00.000Z",
+    "duration": 30,
+    "tutor_name": "김문원"
+ }
+
 ```
 
