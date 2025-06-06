@@ -34,11 +34,14 @@ Rails 기반으로 설계되었으며, 수업 가능 시간 등록 및 수강 �
 
 모델 간 관계:
 
-```ruby
+```
+ruby
 Student has_many :enrollments  
 Tutor has_many :availabilities, :enrollments  
 Availability belongs_to :tutor  
 Enrollment belongs_to :student, :tutor
+
+```
 
 ## 🧪 API 테스트 시나리오 (curl)
 
