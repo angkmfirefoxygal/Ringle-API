@@ -24,18 +24,23 @@ class Api::V1::SlotsController < ApplicationController
     end
   
     def available_tutors
-      start_time = Time.parse(params[:start_time])
+      start_time = Time.zone.parse(params[:start_time])
       duration = params[:duration].to_i
   
-      tutors = Tutor.joins(:availabilities)
-      tutors = tutors.where(availabilities: { start_time: start_time })
-  
+      
+      tutors = Tutor.joins(:availabilities).where(availabilities: { start_time: start_time })
+
       if duration == 60
-        second_block = start_time + 30.minutes
-        tutors = tutors.where(id: Tutor.joins(:availabilities).where(availabilities: { start_time: second_block }).pluck(:id))
+        next_block = start_time + 30.minutes
+        ##second_block = start_time + 30.minutes
+        ##tutors = tutors.where(id: Tutor.joins(:availabilities).where(availabilities: { start_time: second_block }).pluck(:id))
+        tutors = tutors.select do |tutor|
+          tutor.availabilities.exists?(start_time: next_block)
+        end
       end
   
-      render json: tutors.select(:id, :name)
+      render json: tutors.map { |t| { id: t.id, name: t.name } }
+
     end
   end
   
