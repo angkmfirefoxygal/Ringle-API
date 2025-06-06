@@ -1,10 +1,8 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-        resources :availabilities, only: [:create]
-      end
-
-      resources :availabilities, only: [:destroy]
+        resources :availabilities, only: [:create, :destroy]
+      
 
       get '/available_slots', to: 'slots#index'
       get '/available_tutors', to: 'slots#available_tutors'

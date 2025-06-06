@@ -12,11 +12,11 @@
 puts "🔥 Seeding tutor's availabilities..."
 
 # 기존 데이터 삭제
-Tutor.delete_all
 Availability.delete_all
+Tutor.delete_all
 
 # 튜터 생성
-tutor = Tutor.create!(name: "김문원")
+tutor = Tutor.find_or_create_by!(name: "김문원")
 
 # 기간 설정
 start_date = Date.today
@@ -41,3 +41,14 @@ minutes = [0, 30]
 end
 
 puts "✅ Tutor 및 수업 가능 시간 등록 완료!"
+
+puts "🔥 Seeding student..."
+
+students = ["김여원", "김강원"]
+
+students.each do |student_name|
+  Student.find_or_create_by!(name: student_name)
+end
+
+puts "✅ 학생 seed 완료!"
+
