@@ -39,3 +39,98 @@ Student has_many :enrollments
 Tutor has_many :availabilities, :enrollments  
 Availability belongs_to :tutor  
 Enrollment belongs_to :student, :tutor
+
+## 🧪 API 테스트 시나리오 (curl)
+
+튜터와 학생이 seed에 미리 등록되어 있으며, 아래와 같이 실제 수업 예약 흐름을 curl로 테스트할 수 있습니다.
+
+---
+
+### 🧑‍🏫 튜터 기본 정보 (seed 등록됨)
+
+- `tutor_id`: **7**
+- `name`: `"김문원"`
+
+### 👩‍🎓 학생 정보 (seed 등록됨)
+
+- `student_id`: **2** (`김여원`)
+- `student_id`: **3** (`김강원`)
+
+---
+
+### ✅ 1. 수업 가능한 시간대 조회
+
+```
+curl -s "http://localhost:3000/api/v1/available_slots?start_date=2025-06-07&end_date=2025-06-10&duration=30" | jq
+```
+
+📌 응답 예시:
+```json
+[
+  { "start_time": "2025-06-07T00:00:00.000+09:00" },
+  { "start_time": "2025-06-08T00:00:00.000+09:00" }
+]
+```
+
+---
+
+### ✅ 2. 해당 시간에 가능한 튜터 조회
+
+```
+curl -s "http://localhost:3000/api/v1/available_tutors?start_time=2025-06-07T00%3A00%3A00&duration=30" | jq
+```
+
+📌 응답 예시:
+```json
+[
+  { "id": 7, "name": "김문원" }
+]
+```
+
+---
+
+### ✅ 3. 수업 신청
+
+```
+curl -X POST http://localhost:3000/api/v1/enrollments \
+  -H "Content-Type: application/json" \
+  -d '{
+    "student_id": 2,
+    "tutor_id": 7,
+    "start_time": "2025-06-07T00:00:00+09:00",
+    "duration": 30
+  }' | jq
+```
+
+📌 응답 예시:
+```json
+{
+  "id": 1,
+  "student_id": 2,
+  "tutor_id": 7,
+  "start_time": "2025-06-07T00:00:00.000+09:00",
+  "duration": 30
+}
+```
+
+---
+
+### ✅ 4. 특정 학생의 수업 신청 내역 조회
+
+```
+curl -s http://localhost:3000/api/v1/students/2/enrollments | jq
+```
+
+📌 응답 예시:
+```json
+[
+  {
+    "id": 1,
+    "student_id": 2,
+    "tutor_id": 7,
+    "start_time": "2025-06-07T00:00:00.000+09:00",
+    "duration": 30
+  }
+]
+```
+
