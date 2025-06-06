@@ -13,7 +13,8 @@ class Api::V1::SlotsController < ApplicationController
             start_times << time if Availability.exists?(start_time: time)
           elsif duration == 60
             next_time = time + 30.minutes
-            if Availability.exists?(start_time: time) && Availability.exists?(start_time: next_time)
+            availabilities = Availability.where(start_time: time)
+            if availabilities.any? { |a| a.tutor.availabilities.exists?(start_time: next_time) }
               start_times << time
             end
           end
@@ -32,8 +33,6 @@ class Api::V1::SlotsController < ApplicationController
 
       if duration == 60
         next_block = start_time + 30.minutes
-        ##second_block = start_time + 30.minutes
-        ##tutors = tutors.where(id: Tutor.joins(:availabilities).where(availabilities: { start_time: second_block }).pluck(:id))
         tutors = tutors.select do |tutor|
           tutor.availabilities.exists?(start_time: next_block)
         end
