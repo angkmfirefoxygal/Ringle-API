@@ -24,7 +24,7 @@ end_date = start_date + 30.days
 
 # 시간대 후보 (10:00 ~ 18:00)
 hours = (10..17).to_a
-minutes = [0, 30]
+minutes = [ 0, 30 ]
 
 (start_date..end_date).each do |date|
   # 하루에 1~3개의 수업 가능 시간 생성
@@ -44,11 +44,10 @@ puts "✅ Tutor 및 수업 가능 시간 등록 완료!"
 
 puts "🔥 Seeding student..."
 
-students = ["김여원", "김강원"]
+students = [ "김여원", "김강원" ]
 
 students.each do |student_name|
   Student.find_or_create_by!(name: student_name)
 end
 
 puts "✅ 학생 seed 완료!"
-
