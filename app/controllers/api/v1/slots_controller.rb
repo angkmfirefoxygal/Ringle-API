@@ -4,7 +4,7 @@ class Api::V1::SlotsController < ApplicationController
       start_date = Date.parse(params[:start_date])
       end_date = Date.parse(params[:end_date])
       duration = params[:duration].to_i
-  
+
       start_times = []
       (start_date..end_date).each do |date|
         (0..47).each do |i|  # 30분 단위로 하루 48개
@@ -20,15 +20,15 @@ class Api::V1::SlotsController < ApplicationController
           end
         end
       end
-  
+
       render json: start_times.uniq.map { |t| { start_time: t } }
     end
-  
+
     def available_tutors
       start_time = Time.zone.parse(params[:start_time])
       duration = params[:duration].to_i
-  
-      
+
+
       tutors = Tutor.joins(:availabilities).where(availabilities: { start_time: start_time })
 
       if duration == 60
@@ -37,9 +37,7 @@ class Api::V1::SlotsController < ApplicationController
           tutor.availabilities.exists?(start_time: next_block)
         end
       end
-  
-      render json: tutors.map { |t| { id: t.id, name: t.name } }
 
+      render json: tutors.map { |t| { id: t.id, name: t.name } }
     end
-  end
-  
+end

@@ -9,7 +9,7 @@ class Api::V1::EnrollmentsController < ApplicationController
       )
       render json: enrollment, status: :created
     end
-  
+
     def index
       student = Student.find(params[:id])
       enrollments = student.enrollments.includes(:tutor)
@@ -19,5 +19,4 @@ class Api::V1::EnrollmentsController < ApplicationController
         tutor_name: e.tutor.name
       }}
     end
-  end
-  
+end
