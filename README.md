@@ -43,6 +43,46 @@ Enrollment belongs_to :student, :tutor
 
 ```
 
+## API Endpoints
+
+아래는 `/api/v1` 네임스페이스에 정의된 주요 엔드포인트 목록입니다.
+
+### POST /api/v1/availabilities (`AvailabilitiesController#create`)
+- **Params**: `tutor_id`, `start_time`
+- **Response**: 생성된 `Availability` JSON
+```bash
+curl -X POST /api/v1/availabilities \
+  -d tutor_id=7 -d start_time="2025-06-05T10:00"
+```
+
+### DELETE /api/v1/availabilities/:id (`AvailabilitiesController#destroy`)
+- **Params**: `id` (path)
+- **Response**: `204 No Content`
+
+### GET /api/v1/available_slots (`SlotsController#index`)
+- **Params**: `start_date`, `end_date`, `duration`
+- **Response**: 가능한 시작 시간 배열 JSON
+```bash
+curl "./api/v1/available_slots?start_date=2025-06-05&end_date=2025-06-10&duration=30"
+```
+
+### GET /api/v1/available_tutors (`SlotsController#available_tutors`)
+- **Params**: `start_time`, `duration`
+- **Response**: 가능한 튜터 목록 JSON
+
+### POST /api/v1/enrollments (`EnrollmentsController#create`)
+- **Params**: `student_id`, `tutor_id`, `start_time`, `duration`
+- **Response**: 생성된 `Enrollment` JSON
+```bash
+curl -X POST /api/v1/enrollments \
+  -d student_id=2 -d tutor_id=7 \
+  -d start_time="2025-06-05T10:00" -d duration=30
+```
+
+### GET /api/v1/students/:id/enrollments (`EnrollmentsController#index`)
+- **Params**: `id` (path)
+- **Response**: 해당 학생의 수강 신청 목록 JSON
+
 ## 🧪 API 테스트 시나리오 (curl)
 
 튜터와 학생이 seed에 미리 등록되어 있으며, 아래와 같이 실제 수업 예약 흐름을 curl로 테스트할 수 있습니다.

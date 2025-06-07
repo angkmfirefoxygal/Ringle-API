@@ -13,10 +13,12 @@ class Api::V1::EnrollmentsController < ApplicationController
       )
       render json: enrollment, status: :created
     end
+
   
     # GET /api/v1/students/:id/enrollments
     # Params: id (required)
     # Returns an array of enrollments with tutor names.
+
     def index
       student = Student.find(params[:id])
       enrollments = student.enrollments.includes(:tutor)
@@ -26,5 +28,4 @@ class Api::V1::EnrollmentsController < ApplicationController
         tutor_name: e.tutor.name
       }}
     end
-  end
-  
+end
