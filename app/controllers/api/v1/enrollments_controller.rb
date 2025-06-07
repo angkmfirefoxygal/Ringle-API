@@ -14,7 +14,7 @@ class Api::V1::EnrollmentsController < ApplicationController
       render json: enrollment, status: :created
     end
 
-  
+
     # GET /api/v1/students/:id/enrollments
     # Params: id (required)
     # Returns an array of enrollments with tutor names.

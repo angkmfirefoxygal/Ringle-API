@@ -10,11 +10,11 @@ class Api::V1::AvailabilitiesController < ApplicationController
       render json: availability, status: :created
     end
 
-  
+
     # DELETE /api/v1/availabilities/:id
     # Params: id (required)
     # Returns no content.
-  
+
     def destroy
       availability = Availability.find(params[:id])
       availability.destroy

@@ -12,9 +12,9 @@ Rails.application.routes.draw do
       resources :availabilities, only: %i[create destroy]
       resources :enrollments, only: %i[create]
 
-      get '/students/:id/enrollments', to: 'enrollments#index'
-      get '/available_slots',          to: 'slots#index'
-      get '/available_tutors',         to: 'slots#available_tutors'
+      get "/students/:id/enrollments", to: "enrollments#index"
+      get "/available_slots",          to: "slots#index"
+      get "/available_tutors",         to: "slots#available_tutors"
     end
   end
 end

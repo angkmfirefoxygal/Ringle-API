@@ -28,7 +28,7 @@ class Api::V1::SlotsController < ApplicationController
       render json: start_times.uniq.map { |t| { start_time: t } }
     end
 
-  
+
     # GET /api/v1/available_tutors
     # Params: start_time (required), duration (required)
     # Returns tutors available at the given time.
