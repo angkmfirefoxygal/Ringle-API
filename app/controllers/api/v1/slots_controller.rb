@@ -1,5 +1,9 @@
 # app/controllers/api/v1/slots_controller.rb
+# Provides queries for available class time slots and tutors.
 class Api::V1::SlotsController < ApplicationController
+    # GET /api/v1/available_slots
+    # Params: start_date (required), end_date (required), duration (required)
+    # Returns an array of available start times.
     def index
       start_date = Date.parse(params[:start_date])
       end_date = Date.parse(params[:end_date])
@@ -24,6 +28,9 @@ class Api::V1::SlotsController < ApplicationController
       render json: start_times.uniq.map { |t| { start_time: t } }
     end
   
+    # GET /api/v1/available_tutors
+    # Params: start_time (required), duration (required)
+    # Returns tutors available at the given time.
     def available_tutors
       start_time = Time.zone.parse(params[:start_time])
       duration = params[:duration].to_i
